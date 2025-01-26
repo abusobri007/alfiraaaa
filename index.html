@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 3D Book</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+            overflow: hidden;
+        }
+        .book {
+            width: 320px;
+            height: 420px;
+            perspective: 1500px;
+            position: relative;
+        }
+        
+        .cover, .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .cover {
+            background: linear-gradient(to right, #f8b195, #f67280);
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transform-origin: left;
+            transform: rotateY(0deg);
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 6;
+        }
+        .page {
+            transform-origin: left;
+            transform: rotateY(0deg);
+            background: #fff;
+            transition: transform 1s ease-in-out;
+            z-index: 1;
+        }
+        .page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .page:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #f67280;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        }
+        .page.open {
+            transform: rotateY(-180deg);
+        }
+        .page.last.open {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .page .icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 20px;
+
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <div class="book">
+            <div class="cover" onclick="openCover()">Open Book</div>
+            <div class="page" data-index="1" onclick="togglePage(this)">
+                <img src="tes1.jpg" alt="Person 1">
+                <div class="icon">❤️</div>
+            </div>
+            <div class="page" data-index="2" onclick="togglePage(this)">
+                <img src="tes2.jpg" alt="Person 2">
+                <div class="icon">❤️</div>
+            </div>
+            <div class="page" data-index="3" onclick="togglePage(this)">
+                <img src="tes3.jpg" alt="Person 3">
+                <div class="icon">❤️</div>
+            </div>
+            <div class="page" data-index="4" onclick="togglePage(this)">
+                <img src="tes4.jpg" alt="Person 4">
+                <div class="icon">❤️</div>
+            </div>
+            <div class="page" data-index="5" onclick="togglePage(this)">
+                <img src="tes5.jpg" alt="Person 5">
+                <div class="icon">❤️</div>
+            </div>
+        <div class="page last" data-index="6" style="z-index: 0;">
+            Good Night Alfiraaaaaa Cantikkkkkk 🌸✨
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="lagu.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let pagesOpened = 0;
+        const totalPages = document.querySelectorAll('.page').length;
+
+        function openCover() {
+            const cover = document.querySelector('.cover');
+            cover.style.transform = 'rotateY(-180deg)';
+        }
+
+        function togglePage(page) {
+            if (!page.classList.contains('open')) {
+                page.classList.add('open');
+                pagesOpened++;
+
+                if (pagesOpened === totalPages - 1) {
+                    const lastPage = document.querySelector('.page.last');
+                    lastPage.classList.add('open');
+                }
+            }
+        }
+
+        // Play background music on first click
+        document.body.addEventListener('click', () => {
+            const music = document.getElementById('backgroundMusic');
+            if (music.paused) {
+                music.play();
+            }
+        });
+    </script>
+</body>
+</html>
